@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import com.codelabs.state.ui.StateCodelabTheme
-import com.codelabs.state.todo.TodoScreen
 
 class TodoActivity : AppCompatActivity() {
 
@@ -46,7 +45,7 @@ private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
    val items = listOf<TodoItem>() // in the next steps we'll complete this
     TodoScreen(
         items = items,
-        onAddItem = { }, // in the next steps we'll complete this
-        onRemoveItem = { } // in the next steps we'll complete this
+        onAddItem = { todoViewModel.addItem(it) },
+        onRemoveItem = { todoViewModel.removeItem(it) }
     )
 }
