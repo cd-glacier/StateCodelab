@@ -116,6 +116,11 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
     val iconsVisible = text.isNotBlank()
+    val submit = {
+        onItemComplete(TodoItem(text, icon))
+        setIcon(TodoIcon.Default)
+        setText("")
+    }
 
     Column {
         Row(
@@ -128,13 +133,11 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 onTextChange = setText,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(end = 8.dp)
+                    .padding(end = 8.dp),
+                onImeAction = submit // keyboard submit
             )
             TodoEditButton(
-                onClick = {
-                    onItemComplete(TodoItem(text))
-                    setText("")
-                },
+                onClick = submit,
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
                 enabled = text.isNotBlank()
@@ -152,9 +155,10 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
 fun TodoInputTextField(
     text: String,
     onTextChange: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    onImeAction: () -> Unit = {}
 ) {
-    TodoInputText(text, onTextChange, modifier)
+    TodoInputText(text, onTextChange, modifier, onImeAction)
 }
 
 @Preview
